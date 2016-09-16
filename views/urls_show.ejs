@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    </head>
+    <body style="font-size:20px;
+                font-style: ComicSansMS;
+                padding:50px;
+                text-align:center;
+                color:#F8B99C;
+                background:black;">
+        <% include partials/_header %>
+        <p> <%= shortUrl %> </p>
+        <p> <%= longUrl %> </p>
+        <form method="POST" action="/urls/<%= shortUrl %>?_method=PUT" style="margin:center;">
+            <label for="newLongUrl">Edit URL:</label>
+            <input id="newLongUrl" type="text" name="newLongUrl" value="<%= longUrl %>" style="width: 300px">
+            <input type="submit" value="Edit">
+        </form>
+        <p>
+            <a href="/urls">Return</a>
+        </p>
+    </body>
+</html>

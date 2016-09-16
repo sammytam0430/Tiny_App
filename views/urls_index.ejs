@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    </head>
+    <body style="font-size:20px;
+                font-style: ComicSansMS;
+                padding:50px;
+                text-align:center;
+                color:#F8B99C;
+                background:black;">
+        <% include partials/_header %>
+        <h3>Shortened Urls</h3>
+        <table align="center"; cellpadding="5">
+            <tr>
+                <th>Shortened Url</th>
+                <th>Full Url</th>
+                <th>Edit</th>
+                <th>Remove</th>
+            </tr>
+            <tr>
+            <% for (var i in urls) { %>
+                <td> <%= i %> </td>
+                <td> <%= urls[i] %> </td>
+                <td>
+                    <form method="GET" action="/urls/<%= i %>">
+                        <input type="submit" value="Edit">
+                    </form>
+                </td>
+                <td>
+                    <form method="POST" action="/urls/<%= i %>?_method=DELETE">
+                        <input type="submit" value="Delete">
+                    </form>
+                </td>
+            </tr>
+            <tr></tr>
+            <% } %>
+        </table>
+        <p>
+            <a href="/urls/new">Shorten a new link</a>
+        </p>
+    </body>
+</html>
