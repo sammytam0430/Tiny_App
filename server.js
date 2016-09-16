@@ -10,6 +10,10 @@ var connect        = require('connect')
 var methodOverride = require('method-override')
 // override with POST having ?_method=DELETE
 app.use(methodOverride('_method'))
+// Adding MongoDB to the Application
+const MongoClient = require("mongodb").MongoClient;
+const MONGODB_URI = "mongodb://127.0.0.1:27017/url_shortener";
+console.log(`Connecting to MongoDB running at: ${MONGODB_URI}`);
 
 
 const PORT = 8080;
