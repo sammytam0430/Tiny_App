@@ -15,8 +15,18 @@ const MongoClient = require("mongodb").MongoClient;
 const MONGODB_URI = "mongodb://127.0.0.1:27017/url_shortener";
 console.log(`Connecting to MongoDB running at: ${MONGODB_URI}`);
 
+var db;
 
-const PORT = 8080;
+MongoClient.connect(MONGODB_URI, (err, database) => {
+  if (err) return console.log(err);
+  db = database;
+  // let collection = database.collection("urls");
+  const PORT = 8080;
+  app.listen(PORT, () => {
+    console.log(`Example app listening on port ${PORT}!`);
+  });
+});
+
 let data = require("./urls_database.js");
 
 
@@ -26,12 +36,11 @@ function generateRandomString() {
 }
 
 // Main Page
-app.get("/urls", (req, res) => {
-  let urls = {
-    urls: data
-  };
-  console.log(urls);
-  res.render("urls_index", urls);
+app.get('/urls', (req, res) => {
+  db.collection('urls').find().toArray( (err, results) => {
+    console.log(results);
+    res.render('urls_index', {urls: results});
+  });
 });
 
 // Add new Url
@@ -42,36 +51,40 @@ app.get("/urls/new", (req, res) => {
 app.post("/urls", (req, res) => {
   const newKey = generateRandomString();
   console.log("POST /urls ", req.body.longUrl);
-  data[newKey] = req.body.longUrl;
-  res.redirect("/urls");
+  db.collection('urls').insertOne({'shortUrl': newKey, 'longUrl': req.body.longUrl},  (err, result) => {
+    res.redirect("/urls");
+  });
 });
 
 // Edit Method Override
-app.get("/urls/:shortUrl", (req, res) => {
-  let templateVars = {
-    shortUrl: req.params.shortUrl,
-    longUrl: data[req.params.shortUrl]
-  };
-  res.render("urls_show", templateVars);
+app.get("/urls/:id", (req, res) => {
+  var shortUrl = req.params.id;
+  db.collection('urls').findOne({'shortUrl': shortUrl}, (err, result) => {
+   res.render('urls_show', {urls: result});
+   console.log(result)
+   });
 });
 
-app.put("/urls/:shortUrl", (req, res) => {
-  data[req.params.shortUrl] = req.body.newLongUrl;
+app.put("/urls/:id", (req, res) => {
+  var shortUrl = req.params.id;
+  db.collection('urls').updateOne({'shortUrl': shortUrl}, { $set: {'longUrl': req.body.newLongUrl}}, (err, result) => {
   res.redirect("/urls/");
+  });
 });
 
 // Redirect shortUrl
-app.get("/:shortUrl", (req, res) => {
-  let longUrl = data[req.params.shortUrl]
-  res.redirect(longUrl);
+app.get("/u/:shortUrl", (req, res) => {
+  var shortUrl = req.params.shortUrl;
+  db.collection('urls').findOne({'shortUrl': shortUrl}, (err, result) => {
+  console.log(result)
+  res.redirect(result.longUrl);
+  });
 });
 
 // Delete Method Override
-app.delete("/urls/:shortUrl", (req, res) => {
-  delete data[req.params.shortUrl];
+app.delete("/urls/:id", (req, res) => {
+  var shortUrl = req.params.id;
+  db.collection('urls').deleteOne({'shortUrl': shortUrl}, (err, result) => {
   res.redirect("/urls");
-});
-
-app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}!`);
+  });
 });

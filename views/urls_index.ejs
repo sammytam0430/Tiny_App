@@ -18,22 +18,22 @@
                 <th>Remove</th>
             </tr>
             <tr>
-            <% for (var i in urls) { %>
-                <td> <%= i %> </td>
-                <td> <%= urls[i] %> </td>
+            <% Object.keys(urls).forEach(function(key) { %>
+                <td> <%= urls[key].shortUrl %> </td>
+                <td> <%= urls[key].longUrl %> </td>
                 <td>
-                    <form method="GET" action="/urls/<%= i %>">
+                    <form method="GET" action="/urls/<%= urls[key].shortUrl %>">
                         <input type="submit" value="Edit">
                     </form>
                 </td>
                 <td>
-                    <form method="POST" action="/urls/<%= i %>?_method=DELETE">
+                    <form method="POST" action="/urls/<%= urls[key].shortUrl %>?_method=DELETE">
                         <input type="submit" value="Delete">
                     </form>
                 </td>
             </tr>
             <tr></tr>
-            <% } %>
+            <% }); %>
         </table>
         <p>
             <a href="/urls/new">Shorten a new link</a>

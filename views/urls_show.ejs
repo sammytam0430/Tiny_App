@@ -9,11 +9,11 @@
                 color:#F8B99C;
                 background:black;">
         <% include partials/_header %>
-        <p> <%= shortUrl %> </p>
-        <p> <%= longUrl %> </p>
-        <form method="POST" action="/urls/<%= shortUrl %>?_method=PUT" style="margin:center;">
+        <p> <%= urls.shortUrl %> </p>
+        <p> <%= urls.longUrl %> </p>
+        <form method="POST" action="/urls/<%= urls.shortUrl %>?_method=PUT" style="margin:center;">
             <label for="newLongUrl">Edit URL:</label>
-            <input id="newLongUrl" type="text" name="newLongUrl" value="<%= longUrl %>" style="width: 300px">
+            <input id="newLongUrl" type="text" name="newLongUrl" value="<%= urls.longUrl %>" style="width: 300px">
             <input type="submit" value="Edit">
         </form>
         <p>
