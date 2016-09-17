@@ -44,6 +44,10 @@ app.get('/urls', (req, res) => {
 });
 
 // Add new Url
+app.get("/", (req, res) => {
+  res.render("urls_new");
+});
+
 app.get("/urls/new", (req, res) => {
   res.render("urls_new");
 });
