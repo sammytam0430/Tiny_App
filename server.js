@@ -94,8 +94,3 @@ app.delete("/urls/:id", (req, res) => {
     res.redirect("/urls");
   });
 });
-
-// Error Page
-app.get('/urls/error', (req, res) => {
-    res.render('urls_error');
-});
