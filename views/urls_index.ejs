@@ -1,42 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-    </head>
-    <body style="font-size:20px;
-                font-style: ComicSansMS;
-                padding:50px;
-                text-align:center;
-                color:#F8B99C;
-                background:black;">
-        <% include partials/_header %>
-        <h3>Shortened Urls</h3>
-        <table align="center"; cellpadding="5">
-            <tr>
-                <th>Shortened Url</th>
-                <th>Full Url</th>
-                <th>Edit</th>
-                <th>Remove</th>
-            </tr>
-            <tr>
-            <% Object.keys(urls).forEach(function(key) { %>
-                <td> <%= urls[key].shortUrl %> </td>
-                <td> <%= urls[key].longUrl %> </td>
-                <td>
-                    <form method="GET" action="/urls/<%= urls[key].shortUrl %>">
-                        <input type="submit" value="Edit">
-                    </form>
-                </td>
-                <td>
-                    <form method="POST" action="/urls/<%= urls[key].shortUrl %>?_method=DELETE">
-                        <input type="submit" value="Delete">
-                    </form>
-                </td>
-            </tr>
-            <tr></tr>
-            <% }); %>
-        </table>
-        <p>
-            <a href="/urls/new">Shorten a new link</a>
-        </p>
+  <head>
+    <% include partials/_head %>
+  </head>
+  <body>
+    <% include partials/_header %>
+    <h3>Shortened Urls</h3>
+    <table align="center"; cellpadding="5">
+      <tr>
+        <th>Shortened Url</th>
+        <th>Full Url</th>
+        <th>Edit</th>
+        <th>Remove</th>
+      </tr>
+      <tr>
+        <% Object.keys(urls).forEach(function(key) { %>
+          <td> <%= urls[key].shortUrl %> </td>
+          <td> <%= urls[key].longUrl %> </td>
+          <td>
+            <form method="GET" action="/urls/<%= urls[key].shortUrl %>">
+              <input type="submit" value="Edit">
+            </form>
+          </td>
+          <td>
+            <form method="POST" action="/urls/<%= urls[key].shortUrl %>?_method=DELETE">
+              <input type="submit" value="Delete">
+            </form>
+          </td>
+        </tr>
+        <tr></tr>
+        <% }); %>
+      </table>
+      <p>
+        <a href="/urls/new">Shorten a new link</a>
+      </p>
     </body>
 </html>

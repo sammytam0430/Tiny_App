@@ -1,21 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-    </head>
-    <body style="font-size:20px;
-                font-style: ComicSansMS;
-                padding:50px;
-                text-align:center;
-                color:#F8B99C;
-                background:black;">
-        <% include partials/_header %>
-        <form action="/urls" method="POST" style="margin:center;">
-            <label for="longUrl">Enter a URL:</label>
-            <input id="longUrl" type="text" name="longUrl" value="http://" style="width: 300px">
-            <input type="submit" value="Submit">
-        </form>
-        <p>
-            <a href="/urls">View all shortened links</a>
-        </p>
-    </body>
+  <head>
+    <% include partials/_head %>
+  </head>
+  <body>
+    <% include partials/_header %>
+    <form action="/urls" method="POST" style="margin:center;">
+      <label for="longUrl">Enter a URL:</label>
+      <input id="longUrl" type="text" name="longUrl" value="http://" style="width: 300px">
+      <input type="submit" value="Submit">
+    </form>
+    <p>
+      <a href="/urls">View all shortened links</a>
+    </p>
+  </body>
 </html>

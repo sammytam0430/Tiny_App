@@ -1,23 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-    </head>
-    <body style="font-size:20px;
-                font-style: ComicSansMS;
-                padding:50px;
-                text-align:center;
-                color:#F8B99C;
-                background:black;">
-        <% include partials/_header %>
-        <p> <%= urls.shortUrl %> </p>
-        <p> <%= urls.longUrl %> </p>
-        <form method="POST" action="/urls/<%= urls.shortUrl %>?_method=PUT" style="margin:center;">
+  <head>
+    <% include partials/_head %>
+  </head>
+    <body>
+      <% include partials/_header %>
+      <p> <%= urls.shortUrl %> </p>
+      <p> <%= urls.longUrl %> </p>
+      <table align="center"; cellpadding="5">
+        <td>
+          <form method="POST" action="/urls/<%= urls.shortUrl %>?_method=PUT" style="margin:center;">
             <label for="newLongUrl">Edit URL:</label>
             <input id="newLongUrl" type="text" name="newLongUrl" value="<%= urls.longUrl %>" style="width: 300px">
             <input type="submit" value="Edit">
-        </form>
-        <p>
-            <a href="/urls">Return</a>
-        </p>
+          </form>
+        </td>
+        <td>
+          <form method="GET" action="/urls">
+            <input type="submit" value="Cancel">
+          </form>
+        </td>
+      <table>  
+      <p>
+        <a href="/urls">View all shortened links</a>
+      </p>
     </body>
 </html>

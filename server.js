@@ -55,7 +55,7 @@ app.get("/urls/new", (req, res) => {
 app.post("/urls", (req, res) => {
   const newKey = generateRandomString();
   console.log("POST /urls ", req.body.longUrl);
-  db.collection('urls').insertOne({'shortUrl': newKey, 'longUrl': req.body.longUrl},  (err, result) => {
+  db.collection('urls').insertOne({shortUrl: newKey, longUrl: req.body.longUrl},  (err, result) => {
     res.redirect("/urls/" + newKey);
   });
 });
@@ -63,23 +63,25 @@ app.post("/urls", (req, res) => {
 // Edit Method Override
 app.get("/urls/:id", (req, res) => {
   var shortUrl = req.params.id;
-  db.collection('urls').findOne({'shortUrl': shortUrl}, (err, result) => {
-   res.render('urls_show', {urls: result});
-   console.log(result)
-   });
+  db.collection('urls').findOne({shortUrl: shortUrl}, (err, result) => {
+    if(err || !result) return res.status(404).send('NOT FOUND');
+    res.render('urls_show', {urls: result});
+    console.log(result)
+  });
 });
 
 app.put("/urls/:id", (req, res) => {
   var shortUrl = req.params.id;
-  db.collection('urls').updateOne({'shortUrl': shortUrl}, { $set: {'longUrl': req.body.newLongUrl}}, (err, result) => {
-  res.redirect("/urls/");
+  db.collection('urls').updateOne({shortUrl: shortUrl}, { $set: {longUrl: req.body.newLongUrl}}, (err, result) => {
+    res.redirect("/urls/");
   });
 });
 
 // Redirect shortUrl
 app.get("/u/:shortUrl", (req, res) => {
   var shortUrl = req.params.shortUrl;
-  db.collection('urls').findOne({'shortUrl': shortUrl}, (err, result) => {
+  db.collection('urls').findOne({shortUrl: shortUrl}, (err, result) => {
+    if(err || !result) return res.status(404).send('NOT FOUND');
     console.log(result);
     res.status(301).redirect(result.longUrl);
   });
@@ -88,7 +90,12 @@ app.get("/u/:shortUrl", (req, res) => {
 // Delete Method Override
 app.delete("/urls/:id", (req, res) => {
   var shortUrl = req.params.id;
-  db.collection('urls').deleteOne({'shortUrl': shortUrl}, (err, result) => {
-  res.redirect("/urls");
+  db.collection('urls').deleteOne({shortUrl: shortUrl}, (err, result) => {
+    res.redirect("/urls");
   });
+});
+
+// Error Page
+app.get('/urls/error', (req, res) => {
+    res.render('urls_error');
 });
