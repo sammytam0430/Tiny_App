@@ -56,7 +56,7 @@ app.post("/urls", (req, res) => {
   const newKey = generateRandomString();
   console.log("POST /urls ", req.body.longUrl);
   db.collection('urls').insertOne({'shortUrl': newKey, 'longUrl': req.body.longUrl},  (err, result) => {
-    res.redirect("/urls");
+    res.redirect("/urls/" + newKey);
   });
 });
 
@@ -80,8 +80,8 @@ app.put("/urls/:id", (req, res) => {
 app.get("/u/:shortUrl", (req, res) => {
   var shortUrl = req.params.shortUrl;
   db.collection('urls').findOne({'shortUrl': shortUrl}, (err, result) => {
-  console.log(result)
-  res.redirect(result.longUrl);
+    console.log(result);
+    res.status(301).redirect(result.longUrl);
   });
 });
 
