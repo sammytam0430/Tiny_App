@@ -11,8 +11,9 @@ var methodOverride = require('method-override')
 // override with POST having ?_method=DELETE
 app.use(methodOverride('_method'))
 // Adding MongoDB to the Application
+require('dotenv').config();
 var MongoClient = require("mongodb").MongoClient;
-var MONGODB_URI = "mongodb://127.0.0.1:27017/url_shortener";
+var MONGODB_URI = process.env.MONGODB_URI;
 console.log(`Connecting to MongoDB running at: ${MONGODB_URI}`);
 
 var db;
