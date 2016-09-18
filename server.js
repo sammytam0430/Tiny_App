@@ -15,6 +15,7 @@ var MongoClient = require("mongodb").MongoClient;
 var MONGODB_URI = process.env.MONGODB_URI;
 console.log(`Connecting to MongoDB running at: ${MONGODB_URI}`);
 
+
 var db;
 
 MongoClient.connect(MONGODB_URI, (err, database) => {
