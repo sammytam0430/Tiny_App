@@ -1,9 +1,9 @@
 // load the things we need
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
 app.set('view engine', 'ejs');
 // POST Requests
-var bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded());
 //override using a query value
 var connect        = require('connect')
@@ -11,8 +11,8 @@ var methodOverride = require('method-override')
 // override with POST having ?_method=DELETE
 app.use(methodOverride('_method'))
 // Adding MongoDB to the Application
-var MongoClient = require("mongodb").MongoClient;
-var MONGODB_URI = "mongodb://127.0.0.1:27017/url_shortener";
+const MongoClient = require("mongodb").MongoClient;
+const MONGODB_URI = "mongodb://127.0.0.1:27017/url_shortener";
 console.log(`Connecting to MongoDB running at: ${MONGODB_URI}`);
 
 var db;
@@ -21,11 +21,13 @@ MongoClient.connect(MONGODB_URI, (err, database) => {
   if (err) return console.log(err);
   db = database;
   // let collection = database.collection("urls");
-  var PORT = 8080;
+  const PORT = 8080;
   app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}!`);
   });
 });
+
+let data = require("./urls_database.js");
 
 
 // Generate a Random shortUrl
@@ -51,7 +53,7 @@ app.get("/urls/new", (req, res) => {
 });
 
 app.post("/urls", (req, res) => {
-  var newKey = generateRandomString();
+  const newKey = generateRandomString();
   console.log("POST /urls ", req.body.longUrl);
   db.collection('urls').insertOne({shortUrl: newKey, longUrl: req.body.longUrl},  (err, result) => {
     res.redirect("/urls/" + newKey);
