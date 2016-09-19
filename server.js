@@ -1,3 +1,4 @@
+require('dotenv').config();
 // load the things we need
 var express = require('express');
 var app = express();
@@ -11,7 +12,6 @@ var methodOverride = require('method-override')
 // override with POST having ?_method=DELETE
 app.use(methodOverride('_method'))
 // Adding MongoDB to the Application
-require('dotenv').config();
 var MongoClient = require("mongodb").MongoClient;
 var MONGODB_URI = process.env.MONGODB_URI;
 console.log(`Connecting to MongoDB running at: ${MONGODB_URI}`);
@@ -22,7 +22,7 @@ var db;
 MongoClient.connect(MONGODB_URI, (err, database) => {
   if (err) return console.log(err);
   db = database;
-  var PORT = 8080;
+  var PORT = process.env.PORT || 8080;
   app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}!`);
   });
